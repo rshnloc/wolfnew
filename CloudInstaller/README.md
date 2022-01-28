@@ -21,6 +21,7 @@ In the project root dir, run:
 
 ```
 yarn install
+yarn build
 ```
 
 ### Creating a new bot

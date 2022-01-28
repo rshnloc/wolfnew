@@ -31,14 +31,14 @@ try {
 
     if (argv.create === true) {
         logger.info("create", user)
-        runCommand = installer.runCommandsFromFile(typeof argv.f === "string" ? argv.f : path.join("commands", "bitbrain", "install-bot.sh"));
         installer.createVirtualMachine().then((vm) => {
+            runCommand = installer.runCommandsFromFile(typeof argv.f === "string" ? argv.f : path.join("commands", "bitbrain", "install-bot.sh"));
             if (runCommand !== null) {
                 runCommand.then((commandResults) => {
                     logger.info("Successfully executed all commands.");
-                }).catch((err) => {
+                })/*.catch((err) => {
                     logger.error("Error during remote install commands", err);
-                });
+                });*/
             }
         });
     }
