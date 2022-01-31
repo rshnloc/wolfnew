@@ -1,6 +1,7 @@
 #!/bin/bash
 #interactive
 
+sudo su -
 kill -9 `ps -ef | grep bitbrain1 | grep -v grep | awk '{print $2}'`
 userdel -f bitbrain1
 rm -Rf /home/bitbrain1
@@ -29,7 +30,7 @@ echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
 yarn install --production
 echo "1" > premium.txt
 cd /home/bitbrain1/nodejs/BitBrain1
-echo "{\"id\": 11, \"url\": \"https://btwu2n34.wolfbot.org:8443\"}" > sensorConfig.json
+echo "{\"id\": 1, \"url\": \"https://dummy-aws.wolfbot.org:8443\"}" > sensorConfig.json
 
 cd /home/bitbrain1/nodejs/BitBrain1/
 wget https://wolfbot.org/pub/shell/restart-premium1.sh
@@ -41,3 +42,5 @@ exit
 
 #chown bitbrain1:crontab /var/spool/cron/crontabs/bitbrain1
 service cron reload
+
+exit # exit root user

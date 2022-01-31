@@ -11,7 +11,7 @@ export interface HostConfig {
 
 export class Host {
     public host: string;
-    public username: string;
+    public username: string; // the username of the host: admin or root usually
     public privateKeyFile: string;
     public keyPassphrase: string = "";
     public instance: any = null; // node-ssh promise-based instance // TODO wait for typings

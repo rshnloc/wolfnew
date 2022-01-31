@@ -12,7 +12,8 @@ instance per bot (per customer).
 3. Copy and paste the `accessKeyId` and `secretAccessKey` into [aws.json](config/aws.json).
 4. Create a Key pair to access the VMs via SSH: https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#KeyPairs:
    1. make sure the region selected for the key pair is the same as in the `aws.json` of step 3 (default `us-east-1`)
-   2. download and save the key as under `config/aws.pem` in this project
+   2. download and save the key as under `config/aws.pem` in this project. You might have to set permissions `chmod 400 aws.pem`
+5. Create a [security group](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#SecurityGroups:) named `WolfBot` with the following incoming TCP ports open for all IP addresse: `22` and `8443` - [click for an example](./docs/securityGroup.png)
 
 ## Create a new bot instance
 
@@ -51,6 +52,11 @@ Where the `-u` parameter must be an existing bot instance (as created above).
 
 You can also remove the instance manually in [AWS Console](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#Instances:)
 It contains a custom tag key `WolfBot` which contains the customer email address.
+
+
+### Debugging
+
+You can pass then `--debug` flag to WolfBot to print more log information.
 
 ## Used Software
 

@@ -1,6 +1,7 @@
 #!/bin/bash
 #interactive
 
+sudo su -
 apt-get update
 apt-get install build-essential tcl curl htop rdate autossh -y
 apt-get install gcc g++ make flex bison openssl libssl-dev perl -y
@@ -69,44 +70,17 @@ echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
 yarn install --production
 echo "1" > premium.txt
 cd /home/bitbrain1/nodejs/BitBrain1
-echo "{\"id\": 3, \"url\": \"https://bud39fk.wolfbot.org:8443\"}" > sensorConfig.json
+echo "{\"id\": 1, \"url\": \"https://dummy-aws.wolfbot.org:8443\"}" > sensorConfig.json
 
 cd /home/bitbrain1/nodejs/BitBrain1/
 wget https://wolfbot.org/pub/shell/restart-premium1.sh
 chmod u+x restart-premium1.sh
 crontab -l | { cat; echo "* * * * * /home/bitbrain1/nodejs/BitBrain1/restart-premium1.sh >/dev/null 2>&1"; } | crontab -
 
-exit
+exit # exit bitbrain user
 
 
 # install the 2nd user account
-useradd bitbrain2 --create-home --shell=/bin/bash
-su bitbrain2
-cd /home/bitbrain2
-yarn config set workspaces-experimental true
-export NPM_TOKEN="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"
+# only 1 on AWS
 
-mkdir -p /home/bitbrain2/nodejs/BitBrain2/Sensor1
-cd /home/bitbrain2/nodejs/BitBrain2/Sensor1
-wget https://tradebot:SFlw3h42l34jhljljlr5345@staydown.co/updater/Sensor.tar.gz
-tar xzf Sensor.tar.gz
-echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-yarn install --production
-echo "1" > premium.txt
-
-mkdir -p /home/bitbrain2/nodejs/BitBrain2/Sensor_monitor
-cd /home/bitbrain2/nodejs/BitBrain2/Sensor_monitor
-wget https://tradebot:SFlw3h42l34jhljljlr5345@staydown.co/updater/Sensor.tar.gz
-tar xzf Sensor.tar.gz
-echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-yarn install --production
-echo "1" > premium.txt
-cd /home/bitbrain2/nodejs/BitBrain2
-echo "{\"id\": 18, \"url\": \"https://CURRENT_TIMESTAMP.wolfbot.org:2096\"}" > sensorConfig.json
-
-cd /home/bitbrain2/nodejs/BitBrain2/
-wget https://wolfbot.org/pub/shell/restart-premium2.sh
-chmod u+x restart-premium2.sh
-crontab -l | { cat; echo "* * * * * /home/bitbrain2/nodejs/BitBrain2/restart-premium2.sh >/dev/null 2>&1"; } | crontab -
-
-exit
+exit # exit root user

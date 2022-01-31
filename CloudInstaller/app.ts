@@ -14,10 +14,13 @@ import {Installer} from "./src/Installer";
 import {Host, HostCommandResults} from "./src/structs/Host";
 import {User} from "./src/structs/User";
 import * as path from "path";
+import {AwsInstaller} from "./src/AwsInstaller";
 
 //let hosts = Host.loadHosts(nconf.get("hosts"), nconf.get("privateKeyFile"), nconf.get("keyPasspharse"));
 const user = new User(argv.u, argv.p);
-let installer = new Installer(user, argv.debug)
+//let installer = new Installer(user, argv.debug);
+let installer = new AwsInstaller(user, argv.debug);
+
 try {
     let runCommand: Promise<HostCommandResults> = null;
     /*
@@ -30,20 +33,26 @@ try {
      */
 
     if (argv.create === true) {
-        logger.info("create", user)
+        logger.info("create instance for %s", user.email);
         installer.createVirtualMachine().then((vm) => {
+            installer.addHost(vm);
             runCommand = installer.runCommandsFromFile(typeof argv.f === "string" ? argv.f : path.join("commands", "bitbrain", "install-bot.sh"));
             if (runCommand !== null) {
                 runCommand.then((commandResults) => {
                     logger.info("Successfully executed all commands.");
-                })/*.catch((err) => {
+                    logger.info("To access your bot open: https://%s:8443", vm.host);
+                }).catch((err) => {
                     logger.error("Error during remote install commands", err);
-                });*/
+                });
             }
         });
     }
     else if (argv.delete === true) {
-        // TODO
+        installer.removeVirtualMachine().then(() => {
+            logger.info("Successfully terminated AWS instance.");
+        }).catch((err) => {
+            logger.error("Error removing AWS VM", err);
+        })
     }
 }
 catch (err) {
